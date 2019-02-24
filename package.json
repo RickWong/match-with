@@ -1,0 +1,41 @@
+{
+  "private": false,
+  "name": "match-with",
+  "version": "0.0.1",
+  "description": "Pattern matching object structures",
+  "author": "Rick Wong <rick@webambition.nl> (https://rick.codes)",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RickWong/match-with.git"
+  },
+  "homepage": "https://github.com/RickWong/match-with",
+  "main": "index.js",
+  "files": [
+    "*.js",
+    "*.json",
+    "*.md"
+  ],
+  "prettier": {
+    "printWidth": 100,
+    "trailingComma": "all"
+  },
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon --inspect example.js",
+    "test": "cross-env NODE_ENV=test node --inspect ./node_modules/.bin/jest --runInBand ./",
+    "prettier": "find . -type f \\( -iname \\*.js -o -iname \\*.css \\) | grep -v node_modules | xargs prettier --write",
+    "build": "yarn prettier && yarn test"
+  },
+  "keywords": [
+    "pattern",
+    "matching",
+    "object",
+    "structures"
+  ],
+  "devDependencies": {
+    "cross-env": "5.2.0",
+    "jest": "24.1.0",
+    "nodemon": "1.18.10",
+    "prettier": "1.16.4"
+  }
+}
