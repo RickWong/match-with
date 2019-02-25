@@ -1,6 +1,6 @@
 # match-with
 
-Pattern matching object structures. Related to [tc39/proposal-pattern-matching](https://github.com/tc39/proposal-pattern-matching)
+Pattern matching object structures. Related to [tc39/proposal-pattern-matching](https://github.com/tc39/proposal-pattern-matching).
 
 ## Installation
 
@@ -10,21 +10,40 @@ yarn add match-with
 
 ## Usage
 
-Setup and generate webhook as a Promise:
-
 ```js
-import match from "match-with";
+import { match } from "match-with";
 
-match(object).with(
-  { foo: "foo", bar: match.exists },
-  () => console.log("matched"),
-  () => console.warn("not matched"),
-);
+match({ one: 1, two: undefined, three: "3" })
+  .with(
+    { one: 1, two: undefined },
+    () => console.log("matched"), // <-- yes
+    () => console.warn("not matched"),
+  )
+  .with(
+    { one: match.TRUTHY, two: match.FALSY },
+    () => console.log("matched"), // <-- yes
+    () => console.warn("not matched"),
+  )
+  .with(
+    { one: 1, two: match.EXISTS },
+    () => console.log("matched"), // <-- yes
+    () => console.warn("not matched"),
+  )
+  .with(
+    { one: 1, four: undefined },
+    () => console.log("matched"), // <-- yes
+    () => console.warn("not matched"),
+  )
+  .with(
+    { one: 1, four: match.EXISTS },
+    () => console.log("matched"),
+    () => console.warn("not matched"), // <-- nope
+  );
 ```
 
 ## Community
 
-Let's start one together! After you ★ this project, follow me [@rygu](https://twitter.com/rygu) on Twitter.
+Let's start one together! After you ★ this project, follow me [@Rygu](https://twitter.com/rygu) on Twitter. Let me know what you think.
 
 ## License
 
