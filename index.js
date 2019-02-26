@@ -21,12 +21,10 @@ class Matcher {
   }
 
   with(pattern, trueCallback, falseCallback) {
-    if (pattern === match.EXISTS && !this._subject) {
-      falseCallback && falseCallback(this._subject);
-    } else if (this.compare({ wrapper: this._subject }, { wrapper: pattern })) {
-      trueCallback && trueCallback(this._subject);
+    if (this.compare({ wrapper: this._subject }, { wrapper: pattern })) {
+      trueCallback && trueCallback(this._subject, pattern);
     } else {
-      falseCallback && falseCallback(this._subject);
+      falseCallback && falseCallback(this._subject, pattern);
     }
 
     return this;

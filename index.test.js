@@ -22,10 +22,10 @@ describe("match", () => {
       matched++;
     });
     match().with(match.EXISTS, () => {
-      matched--;
+      matched++;
     });
 
-    expect(matched).toBe(6);
+    expect(matched).toBe(7);
   });
 
   test("no props", () => {

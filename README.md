@@ -1,6 +1,6 @@
 # match-with
 
-Pattern matching object structures. Related to [tc39/proposal-pattern-matching](https://github.com/tc39/proposal-pattern-matching).
+Pattern matching object structures. Semi-related to [tc39/proposal-pattern-matching](https://github.com/tc39/proposal-pattern-matching).
 
 ## Installation
 
