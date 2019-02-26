@@ -46,6 +46,10 @@ match(subject)
 
 match(subject)
   .with(
+    { one: 1, four: match.EXISTS },
+    () => console.log("match"), // Skipped.
+  )
+  .with(
     { one: 1, four: undefined },
     () => console.log("match"),
   );
@@ -53,7 +57,7 @@ match(subject)
 
 ## Community
 
-Let's start one together! After you ★ this project, follow me [@Rygu](https://twitter.com/rygu) on Twitter. Let me know what you think.
+Let me know what you think. After you ★ this project, follow me [@Rygu](https://twitter.com/rygu) on Twitter.
 
 ## License
 

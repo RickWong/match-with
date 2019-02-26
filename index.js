@@ -20,9 +20,9 @@ class Matcher {
     this._matchFunc = matchFunc;
   }
 
-  with(pattern, trueCallback) {
+  with(pattern, matchCallback) {
     if (this.compare({ wrapper: this._subject }, { wrapper: pattern })) {
-      trueCallback && trueCallback(this._subject, pattern);
+      matchCallback && matchCallback(this._subject, pattern);
       return new NoOpMatcher(this._subject, this._matchFunc);
     }
 
