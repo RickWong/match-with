@@ -16,9 +16,9 @@ Basic syntax:
 import { match } from "match-with";
 
 match(subject: any)
-  .with(pattern1: any, matchCallback1: (subject, pattern1) => void)
-  .with(pattern2: any, matchCallback2: (subject, pattern2) => void)
-  .default(matchCallback3: (subject) => void);
+  .with(pattern1: any, callback1: (subject, pattern1) => void)
+  .with(pattern2: any, callback2: (subject, pattern2) => void)
+  .default(callback3: (subject) => void);
 ```
 
 Examples:
