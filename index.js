@@ -75,7 +75,7 @@ class Matcher {
 
 class NoOpMatcher extends Matcher {
   with() {
-    return new NoOpMatcher(this._subject, this._matchFunc);
+    return this;
   }
 
   default() {
