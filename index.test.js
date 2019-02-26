@@ -46,7 +46,7 @@ describe("match", () => {
       matched++;
     });
     match({ foo: "", bar: 0 }).with({ bar: 0, baz: false }, () => {
-      matched--;
+      fail();
     });
 
     expect(matched).toBe(2);
@@ -64,7 +64,7 @@ describe("match", () => {
       matched++;
     });
     match({ num: "0" }).with({ num: 0 }, () => {
-      matched--;
+      fail();
     });
 
     expect(matched).toBe(3);
@@ -79,13 +79,13 @@ describe("match", () => {
       matched++;
     });
     match({ bool: true }).with({ bool: false }, () => {
-      matched--;
+      fail();
     });
     match({ bool: 1 }).with({ bool: true }, () => {
-      matched--;
+      fail();
     });
     match({ bool: 0 }).with({ bool: false }, () => {
-      matched--;
+      fail();
     });
 
     expect(matched).toBe(2);
@@ -97,10 +97,10 @@ describe("match", () => {
       matched++;
     });
     match({ nil: undefined }).with({ nil: null }, () => {
-      matched--;
+      fail();
     });
     match({}).with({ nil: null }, () => {
-      matched--;
+      fail();
     });
 
     expect(matched).toBe(1);
@@ -115,7 +115,7 @@ describe("match", () => {
       matched++;
     });
     match({ foo: false }).with({ foo: "" }, () => {
-      matched--;
+      fail();
     });
 
     expect(matched).toBe(2);
@@ -130,10 +130,10 @@ describe("match", () => {
       matched++;
     });
     match({ foo: [1] }).with({ foo: [1, 2] }, () => {
-      matched--;
+      fail();
     });
     match({ foo: [1, 2] }).with({ foo: [2, 1] }, () => {
-      matched--;
+      fail();
     });
 
     expect(matched).toBe(2);
@@ -145,10 +145,10 @@ describe("match", () => {
       matched++;
     });
     match({ foo: null }).with({ foo: undefined }, () => {
-      matched--;
+      fail();
     });
     match({ foo: false }).with({ foo: undefined }, () => {
-      matched--;
+      fail();
     });
 
     expect(matched).toBe(1);
@@ -166,7 +166,7 @@ describe("match", () => {
       matched++;
     });
     match({}).with({ foo: match.EXISTS }, () => {
-      matched--;
+      fail();
     });
 
     expect(matched).toBe(3);
@@ -184,10 +184,10 @@ describe("match", () => {
       matched++;
     });
     match({ foo: "" }).with({ foo: match.TRUTHY }, () => {
-      matched--;
+      fail();
     });
     match({ foo: false }).with({ foo: match.TRUTHY }, () => {
-      matched--;
+      fail();
     });
 
     expect(matched).toBe(3);
@@ -211,7 +211,7 @@ describe("match", () => {
       matched++;
     });
     match({ foo: [] }).with({ foo: match.FALSY }, () => {
-      matched--;
+      fail();
     });
 
     expect(matched).toBe(5);
@@ -229,13 +229,13 @@ describe("match", () => {
       matched++;
     });
     match({ foo: {} }).with({ foo: { bar: { baz: undefined } } }, () => {
-      matched--;
+      fail();
     });
     match({ foo: { bar: 1 } }).with({ foo: [] }, () => {
-      matched--;
+      fail();
     });
     match({ foo: {} }).with({ foo: { bar: 1 } }, () => {
-      matched--;
+      fail();
     });
 
     expect(matched).toBe(3);
@@ -245,13 +245,16 @@ describe("match", () => {
     let matched = 0;
     match({ foo: 1 })
       .with({ foo: 0 }, () => {
+        fail();
+      })
+      .with({ foo: 1 }, () => {
         matched++;
       })
       .with({ foo: 1 }, () => {
         matched++;
       })
-      .with({ foo: 1, bar: undefined }, () => {
-        matched++;
+      .with({ foo: 2 }, () => {
+        fail();
       });
 
     expect(matched).toBe(1);
@@ -263,7 +266,7 @@ describe("match", () => {
       matched++;
     });
     match({ zero: +0 }, Object.is).with({ zero: -0 }, () => {
-      matched--;
+      fail();
     });
 
     expect(matched).toBe(1);
