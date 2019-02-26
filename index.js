@@ -66,11 +66,20 @@ class Matcher {
 
     return true;
   }
+
+  default(matchCallback) {
+    matchCallback && matchCallback(this._subject, null);
+    return new NoOpMatcher(this._subject, this._matchFunc);
+  }
 }
 
 class NoOpMatcher extends Matcher {
   with() {
     return new NoOpMatcher(this._subject, this._matchFunc);
+  }
+
+  default() {
+    return this;
   }
 }
 

@@ -252,8 +252,21 @@ describe("match", () => {
       })
       .with({ foo: 1 }, () => {
         matched++;
+      });
+
+    expect(matched).toBe(1);
+  });
+
+  test("match default", () => {
+    let matched = 0;
+    match({ foo: 1 })
+      .with({ foo: 0 }, () => {
+        fail();
       })
-      .with({ foo: 2 }, () => {
+      .default(() => {
+        matched++;
+      })
+      .default(() => {
         fail();
       });
 

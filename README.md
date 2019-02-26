@@ -15,9 +15,10 @@ Basic syntax:
 ```ts
 import { match } from "match-with";
 
-match(subject: any)
-  .with(pattern1: any, matchCallback: (subject, pattern) => void)
-  .with(pattern2: any, matchCallback: (subject, pattern) => void);
+match(subject0: any)
+  .with(pattern1: any, matchCallback1: (subject0, pattern1) => void)
+  .with(pattern2: any, matchCallback2: (subject0, pattern2) => void)
+  .default(matchCallback3: (subject0) => void);
 ```
 
 Examples:
