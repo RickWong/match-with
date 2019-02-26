@@ -241,6 +241,22 @@ describe("match", () => {
     expect(matched).toBe(3);
   });
 
+  test("match once", () => {
+    let matched = 0;
+    match({ foo: 1 })
+      .with({ foo: 0 }, () => {
+        matched++;
+      })
+      .with({ foo: 1 }, () => {
+        matched++;
+      })
+      .with({ foo: 1, bar: undefined }, () => {
+        matched++;
+      });
+
+    expect(matched).toBe(1);
+  });
+
   test("custom match function", () => {
     let matched = 0;
     match({ zero: +0 }).with({ zero: -0 }, () => {
@@ -251,34 +267,5 @@ describe("match", () => {
     });
 
     expect(matched).toBe(1);
-  });
-
-  test("example from README", () => {
-    match({ one: 1, two: undefined, three: "3" })
-      .with(
-        { one: 1, two: undefined },
-        () => console.log("matched"), // <-- yes
-        () => console.warn("not matched"),
-      )
-      .with(
-        { one: match.TRUTHY, two: match.FALSY },
-        () => console.log("matched"), // <-- yes
-        () => console.warn("not matched"),
-      )
-      .with(
-        { one: 1, two: match.EXISTS },
-        () => console.log("matched"), // <-- yes
-        () => console.warn("not matched"),
-      )
-      .with(
-        { one: 1, four: undefined },
-        () => console.log("matched"), // <-- yes
-        () => console.warn("not matched"),
-      )
-      .with(
-        { one: 1, four: match.EXISTS },
-        () => console.log("matched"),
-        () => console.warn("not matched"), // <-- nope
-      );
   });
 });
