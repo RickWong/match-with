@@ -6,8 +6,8 @@ function isObject(object) {
   return object !== null && typeof object === "object";
 }
 
-function match(subject, matchFunc) {
-  return new Matcher(subject, matchFunc);
+function match(subject, initValue, compareFn) {
+  return new Matcher(subject, initValue, compareFn);
 }
 
 match.EXISTS = Symbol("EXISTS");
@@ -15,30 +15,34 @@ match.TRUTHY = Symbol("TRUTHY");
 match.FALSY = Symbol("FALSY");
 
 class Matcher {
-  constructor(subject, matchFunc) {
+  constructor(subject, initValue, compareFn) {
     this._subject = subject;
-    this._matchFunc = matchFunc;
+    this._result = initValue;
+    this._compareFn = compareFn || this.compare;
   }
 
-  with(pattern, matchCallback) {
-    if (this.compare({ wrapper: this._subject }, { wrapper: pattern })) {
-      matchCallback && matchCallback(this._subject, pattern);
-      return new NoOpMatcher(this._subject, this._matchFunc);
+  get result() {
+    return this._result;
+  }
+
+  with(pattern, callback) {
+    if (this._compareFn({ wrapper: this._subject }, { wrapper: pattern })) {
+      if (callback) {
+        this._result = callback(this._subject, pattern);
+      }
+
+      return new NoOpMatcher(this._subject, this._result, this._compareFn);
     }
 
     return this;
   }
 
   compare(subject, pattern) {
-    if (!Object.keys(pattern).length) {
-      return true;
-    }
-
     for (const [prop, comparison] of Object.entries(pattern)) {
       if (Array.isArray(comparison)) {
         return arraysEqual(subject[prop], comparison);
       } else if (isObject(comparison)) {
-        if (isObject(subject[prop]) && this.compare(subject[prop], comparison)) {
+        if (isObject(subject[prop]) && this._compareFn(subject[prop], comparison)) {
           continue;
         }
       } else if (comparison === match.EXISTS) {
@@ -53,10 +57,6 @@ class Matcher {
         if (!subject[prop]) {
           continue;
         }
-      } else if (this._matchFunc) {
-        if (this._matchFunc(subject[prop], comparison, prop)) {
-          continue;
-        }
       } else if (subject[prop] === comparison) {
         continue;
       }
@@ -67,9 +67,12 @@ class Matcher {
     return true;
   }
 
-  default(matchCallback) {
-    matchCallback && matchCallback(this._subject, null);
-    return new NoOpMatcher(this._subject, this._matchFunc);
+  default(callback) {
+    if (callback) {
+      this._result = callback(this._subject, null);
+    }
+
+    return new NoOpMatcher(this._subject, this._result, this._compareFn);
   }
 }
 

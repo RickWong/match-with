@@ -28,6 +28,14 @@ describe("match", () => {
     expect(matched).toBe(7);
   });
 
+  test("return value", () => {
+    const matcher = match(2).with(match.TRUTHY, subject => {
+      return subject * 3;
+    });
+
+    expect(matcher.result).toBe(6);
+  });
+
   test("no props", () => {
     let matched = 0;
     match({ foo: "foo" }).with({}, () => {
@@ -259,18 +267,20 @@ describe("match", () => {
 
   test("match default", () => {
     let matched = 0;
-    match({ foo: 1 })
+    const { result } = match({ foo: 1 })
       .with({ foo: 0 }, () => {
         fail();
       })
       .default(() => {
         matched++;
+        return 42;
       })
       .default(() => {
         fail();
       });
 
     expect(matched).toBe(1);
+    expect(result).toBe(42);
   });
 
   test("custom match function", () => {
@@ -278,7 +288,7 @@ describe("match", () => {
     match({ zero: +0 }).with({ zero: -0 }, () => {
       matched++;
     });
-    match({ zero: +0 }, Object.is).with({ zero: -0 }, () => {
+    match({ zero: +0 }, null, Object.is).with({ zero: -0 }, () => {
       fail();
     });
 

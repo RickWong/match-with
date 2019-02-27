@@ -18,7 +18,7 @@ import { match } from "match-with";
 match(subject: any)
   .with(pattern1: any, callback1: (subject, pattern1) => void)
   .with(pattern2: any, callback2: (subject, pattern2) => void)
-  .default(callback3: (subject) => void);
+  .default(callback3: (subject, null) => void);
 ```
 
 Examples:
@@ -26,24 +26,19 @@ Examples:
 ```ts
 ...
 const subject = {
-  one: 1, 
-  two: undefined, 
+  one: 1,
+  two: undefined,
   three: "3",
 };
 
 match(subject)
   .with({ one: 1, two: undefined }, () => {
-    console.log("match");
-  });
+    return "match";
+  }).result; // "match";
 
 match(subject)
-  .with({ one: match.TRUTHY, two: match.FALSY }, () => { 
-    console.log("match");
-  });
-
-match(subject)
-  .with({ one: 1, two: match.EXISTS }, () => {
-    console.log("match");
+  .with({ one: match.TRUTHY, two: match.FALSY, three: match.EXISTS }, () => {
+    return "match";
   });
 
 match(subject)
@@ -51,7 +46,15 @@ match(subject)
     // Skipped.
   })
   .with({ one: 1, four: undefined }, () => {
-    console.log("match");
+    return "match";
+  });
+
+match(subject)
+  .with({ one: 9 }, () => {
+    // Skipped.
+  })
+  .default(() => {
+    return "match";
   });
 ```
 
