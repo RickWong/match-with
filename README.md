@@ -16,9 +16,9 @@ Basic syntax:
 import { match } from "match-with";
 
 match(subject: any)
-  .with(pattern1: any, callback1: (subject, pattern1) => void)
-  .with(pattern2: any, callback2: (subject, pattern2) => void)
-  .default(callback3: (subject, null) => void);
+  .with(pattern1: any, callback1: (subject, pattern1) => any)
+  .with(pattern2: any, callback2: (subject, pattern2) => any)
+  .default(callback3: (subject, null) => any);
 ```
 
 Examples:
@@ -38,7 +38,7 @@ match(subject)
 
 match(subject)
   .with({ one: match.TRUTHY, two: match.FALSY, three: match.EXISTS }, () => {
-    return "match";
+    return true;
   });
 
 match(subject)
@@ -54,7 +54,7 @@ match(subject)
     // Skipped.
   })
   .default(() => {
-    return "match";
+    return 42;
   });
 ```
 
