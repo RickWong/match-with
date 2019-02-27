@@ -42,19 +42,19 @@ match(subject)
   });
 
 match(subject)
-  .with({ one: 1, four: match.EXISTS }, () => {
-    // Skipped.
-  })
-  .with({ one: 1, four: undefined }, () => {
-    return "match";
-  });
-
-match(subject)
   .with({ one: 9 }, () => {
     // Skipped.
   })
   .default(() => {
     return 42;
+  });
+
+match(subject)
+  .with({ four: match.EXISTS }, () => {
+    // Skipped.
+  })
+  .with({ four: undefined }, () => {
+    return "match";
   });
 ```
 
