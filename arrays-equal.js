@@ -3,7 +3,7 @@
 function arraysEqual(array1, array2) {
   const a = array1;
   const b = array2;
-  const c = a.length != b.length;
+  const c = a.length !== b.length;
 
   /*
    * Test both factors that immediately make this method unnecessary.
@@ -36,7 +36,7 @@ function arraysEqual(array1, array2) {
       if (!arraysEqual(a[i], b[i])) {
         return false;
       }
-    } else if (a[i] != b[i]) {
+    } else if (a[i] !== b[i]) {
       return false;
     }
   }
