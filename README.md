@@ -16,9 +16,10 @@ Basic syntax:
 import { match } from "match-with";
 
 match(subject: any)
-  .with(pattern1: any, callback1: (subject, pattern1) => any)
-  .with(pattern2: any, callback2: (subject, pattern2) => any)
-  .default(callback3: (subject) => any);
+  .with(pattern1: any, callback1: (subject, pattern1) => result: any)
+  .with(pattern2: any, callback2: (subject, pattern2) => result: any)
+  .default(callback3: (subject) => result: any)
+  .result;
 ```
 
 Examples:
