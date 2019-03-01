@@ -37,16 +37,16 @@ match(subject)
   }).result; // "match";
 
 match(subject)
-  .with({ one: match.TRUTHY, two: match.FALSY, three: match.EXISTS }, () => {
-    return true;
-  });
-
-match(subject)
-  .with({ one: 9 }, () => {
+  .with({ one: 2 }, () => {
     // Skipped.
   })
   .default(() => {
-    return 42;
+    return 1;
+  });
+
+match(subject)
+  .with({ one: n => n < 2 }, () => {
+    console.log(true);
   });
 
 match(subject)
@@ -54,7 +54,7 @@ match(subject)
     // Skipped.
   })
   .with({ four: undefined }, () => {
-    return "match";
+    return 4;
   });
 ```
 

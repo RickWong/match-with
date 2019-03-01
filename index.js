@@ -6,13 +6,15 @@ function isObject(object) {
   return object !== null && typeof object === "object";
 }
 
+function isFunction(fn) {
+  return fn instanceof Function;
+}
+
 function match(subject, initValue, compareFn) {
   return new Matcher(subject, initValue, compareFn);
 }
 
 match.EXISTS = Symbol("EXISTS");
-match.TRUTHY = Symbol("TRUTHY");
-match.FALSY = Symbol("FALSY");
 
 class Matcher {
   constructor(subject, initValue, compareFn) {
@@ -45,16 +47,12 @@ class Matcher {
         if (isObject(subject[prop]) && this._compareFn(subject[prop], comparison)) {
           continue;
         }
+      } else if (isFunction(comparison)) {
+        if (comparison(subject[prop])) {
+          continue;
+        }
       } else if (comparison === match.EXISTS) {
         if (prop in subject) {
-          continue;
-        }
-      } else if (comparison === match.TRUTHY) {
-        if (subject[prop]) {
-          continue;
-        }
-      } else if (comparison === match.FALSY) {
-        if (!subject[prop]) {
           continue;
         }
       } else if (subject[prop] === comparison) {

@@ -12,12 +12,6 @@ describe("match", () => {
     match([1, 2]).with([1, 2], () => {
       matched++;
     });
-    match(1).with(match.TRUTHY, () => {
-      matched++;
-    });
-    match(0).with(match.FALSY, () => {
-      matched++;
-    });
     match().with(undefined, () => {
       matched++;
     });
@@ -25,11 +19,11 @@ describe("match", () => {
       matched++;
     });
 
-    expect(matched).toBe(7);
+    expect(matched).toBe(5);
   });
 
   test("return value", () => {
-    const matcher = match(2).with(match.TRUTHY, subject => {
+    const matcher = match(2).with(2, subject => {
       return subject * 3;
     });
 
@@ -180,51 +174,6 @@ describe("match", () => {
     expect(matched).toBe(3);
   });
 
-  test("truthy props", () => {
-    let matched = 0;
-    match({ foo: true }).with({ foo: match.TRUTHY }, () => {
-      matched++;
-    });
-    match({ foo: 1 }).with({ foo: match.TRUTHY }, () => {
-      matched++;
-    });
-    match({ foo: [] }).with({ foo: match.TRUTHY }, () => {
-      matched++;
-    });
-    match({ foo: "" }).with({ foo: match.TRUTHY }, () => {
-      fail();
-    });
-    match({ foo: false }).with({ foo: match.TRUTHY }, () => {
-      fail();
-    });
-
-    expect(matched).toBe(3);
-  });
-
-  test("falsy props", () => {
-    let matched = 0;
-    match({ foo: false }).with({ foo: match.FALSY }, () => {
-      matched++;
-    });
-    match({ foo: null }).with({ foo: match.FALSY }, () => {
-      matched++;
-    });
-    match({ foo: "" }).with({ foo: match.FALSY }, () => {
-      matched++;
-    });
-    match({ foo: undefined }).with({ foo: match.FALSY }, () => {
-      matched++;
-    });
-    match({ foo: 0 }).with({ foo: match.FALSY }, () => {
-      matched++;
-    });
-    match({ foo: [] }).with({ foo: match.FALSY }, () => {
-      fail();
-    });
-
-    expect(matched).toBe(5);
-  });
-
   test("deep object", () => {
     let matched = 0;
     match({ foo: { bar: 1, baz: "2" } }).with({ foo: { bar: 1 } }, () => {
@@ -293,5 +242,24 @@ describe("match", () => {
     });
 
     expect(matched).toBe(1);
+  });
+
+  test("pattern function", () => {
+    let matched = 0;
+
+    match({ num: 6 }).with(
+      ({ num }) => {
+        return num > 5;
+      },
+      () => {
+        matched++;
+      },
+    );
+    expect(matched).toBe(1);
+
+    match({ num: 4 }).with({ num: n => n < 5 }, () => {
+      matched++;
+    });
+    expect(matched).toBe(2);
   });
 });
