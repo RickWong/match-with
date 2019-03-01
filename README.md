@@ -35,7 +35,8 @@ const subject = {
 match(subject)
   .with({ one: 1, two: undefined }, () => {
     return "match";
-  }).result; // "match";
+  })
+  .result; // "match";
 
 match(subject)
   .with({ one: 2 }, () => {
