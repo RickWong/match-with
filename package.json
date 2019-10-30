@@ -3,7 +3,7 @@
   "name": "match-with",
   "version": "1.5.1",
   "description": "Pattern matching object structures",
-  "author": "Rick Wong <rick@webambition.nl> (https://rick.codes)",
+  "author": "Rick Wong",
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
